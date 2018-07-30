@@ -13,4 +13,5 @@ extension Notification.Name {
     static let total = Notification.Name(rawValue: "total")
     static let calculationAlert = Notification.Name(rawValue: "NewCalculationAlert")
     static let expressionAlert = Notification.Name(rawValue: "incorrectExpressionAlert")
+    static let dividByZero = Notification.Name(rawValue: "DivideByZero")
 }

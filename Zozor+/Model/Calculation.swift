@@ -7,21 +7,20 @@
 //
 
 import Foundation
-import UIKit
 
 class Calculation {
     
     var text = ""
-    var stringNumbers: [String] = [String]()
+    var stringNumbers: [String] = [String()]
     var operators: [String] = ["+"]
     var total = 0
     var isExpressionCorrect: Bool {
         if let stringNumber = stringNumbers.last {
             if stringNumber.isEmpty {
                 if stringNumbers.count == 1 {
-                    postNotification(name: .calculationAlert)
+                    showNotification(name: .calculationAlert)
                 } else {
-                    postNotification(name: .expressionAlert)
+                    showNotification(name: .expressionAlert)
                 }
                 return false
             }
@@ -32,19 +31,19 @@ class Calculation {
     var canAddOperator: Bool {
         if let stringNumber = stringNumbers.last {
             if stringNumber.isEmpty {
-                postNotification(name: .expressionAlert)
+                showNotification(name: .expressionAlert)
                 return false
             }
         }
         return true
     }
     
-    func postNotification(name: Notification.Name) {
+    func showNotification(name: Notification.Name) {
         let notification = Notification(name: name)
         NotificationCenter.default.post(notification)
     }
     
-    func addNewNumber (_ newNumber: Int) {
+    func addNewNumber(_ newNumber: Int) {
         if let stringNumber = stringNumbers.last {
             var stringNumberMutable = stringNumber
             stringNumberMutable += "\(newNumber)"
@@ -52,40 +51,81 @@ class Calculation {
         }
         updateDisplay()
     }
-    
+
     func updateDisplay() {
         for (i, stringNumber) in stringNumbers.enumerated() {
-            //AddOperator
+            // Add operator
             if i > 0 {
                 text += operators[i]
             }
-            //ADD Number
+            // Add number
             text += stringNumber
         }
-        postNotification(name: .total)
+        showNotification(name: .text)
     }
     
-    func calculateTotal(){
+//    func calculateTotal() {
+//        if !isExpressionCorrect {
+//            return
+//        }
+//        for (i, stringNumber) in stringNumbers.enumerated() {
+//            if let number = Int(stringNumber) {
+//                if operators[i] == "+" {
+//                    total += number
+//                } else if operators[i] == "-" {
+//                    total -= number
+//                } else if operators[i] == "x" {
+//                    total *= number
+//                } else if operators[i] == "/" && number != 0 {
+//                    total /= number
+//                } else {
+//                    showNotification(name: .dividByZero)
+//                    clear()
+//                }
+//            }
+//        }
+//        showNotification(name: .total)
+//        clear()
+//    }
+    func calculateTotal() {
         if !isExpressionCorrect {
             return
         }
+        prioritizeCalculation()
         for (i, stringNumber) in stringNumbers.enumerated() {
             if let number = Int(stringNumber) {
                 if operators[i] == "+" {
                     total += number
-                } else if operators[i] == "-" {
+                } else {
                     total -= number
                 }
             }
         }
-        postNotification(name: .total)
-        clear()
+        showNotification(name: .total)
+    }
+    
+    private func prioritizeCalculation() {
+        for (index, op) in operators.enumerated().reversed() where op == "x" || op == "/" {
+            var operation: ((Int, Int) -> Int)?
+            if op == "x" {
+                operation = (*)
+            } else if op == "/" && stringNumbers[index] != "0" {
+                operation = (/)
+            } else {
+                showNotification(name: .dividByZero)
+                clear()
+            }
+            guard let oper = operation else { return }
+            let total = oper(Int(stringNumbers[index-1])!, Int(stringNumbers[index])!)
+            stringNumbers[index-1] = String(total)
+            stringNumbers.remove(at: index)
+            operators.remove(at: index)
+        }
     }
     
     func clear() {
-        stringNumbers = [String]()
+        stringNumbers = [String()]
         operators = ["+"]
         total = 0
     }
-    
 }
