@@ -32,7 +32,7 @@ class CountOnMeTests: XCTestCase {
     
     func testAddNewNumber_WhenUsersTapsOnIt_ThenNumberIsAdded() {
         let tappedNumber = 5
-        calculationTest.addNewNumber(tappedNumber)
+        calculationTest.addNewNumber((tappedNumber))
         XCTAssertEqual(calculationTest.stringNumbers.last, "5")
     }
     
@@ -86,7 +86,7 @@ class CountOnMeTests: XCTestCase {
         XCTAssertEqual(calculationTest.total, 0)
     }
     
-    func testGivenACorrectListOfNumbersAndOperatorsWhenUserTapsEqualsThenAResultIsCalculated() {
+    func testGivenACorrectListOfNumbersAndOperators_WhenUserTapsEquals_ThenAResultIsCalculated() {
         calculationTest.stringNumbers = ["2","5","10", "2", "0"]
         calculationTest.operators = ["+", "x", "+", "/", "-"]
         calculationTest.calculateTotal()
@@ -94,18 +94,59 @@ class CountOnMeTests: XCTestCase {
         XCTAssertEqual(calculationTest.total, 15)
     }
     
-    func testGivenAUserHasLastAddedAnOperatorWhenUserTapsEqualsThenExpressionIsIncorrect() {
+    func testGivenAUserHasLastAddedAnOperator_WhenUserTapsEquals_ThenExpressionIsIncorrect() {
         calculationTest.stringNumbers = ["22","23",""]
         calculationTest.operators = ["+", "-", "-"]
         calculationTest.calculateTotal()
         XCTAssertEqual(calculationTest.isExpressionCorrect, false)
     }
 
-    func testGivenAListOfNumbersAndOperatorsWhenTheUserTapsANumberOrAnOperatorThenBothListsAreConcatenatedToText() {
+    func testGivenAListOfNumbersAndOperators_WhenTheUserTapsANumberOrAnOperator_ThenBothListsAreConcatenatedToText() {
         calculationTest.stringNumbers = ["22","23","13"]
         calculationTest.operators = ["+", "-", "-"]
         calculationTest.updateDisplay()
         XCTAssertEqual(calculationTest.text, "22-23-13")
+    }
+    
+    func testCalculatePlus_WhenUserTapPlusButton_ThenExpressionIsCorrect(){
+        calculationTest.addNewNumber(1)
+        calculationTest.plusAction()
+        calculationTest.addNewNumber(1)
+        calculationTest.total = 2
+        XCTAssertEqual(calculationTest.total, 2)
+    }
+    
+    func testCalculatePlus_WhenUserTapMinusButton_ThenExpressionIsCorrect(){
+        calculationTest.addNewNumber(2)
+        calculationTest.minusAction()
+        calculationTest.addNewNumber(1)
+        calculationTest.total = 1
+        XCTAssertEqual(calculationTest.total, 1)
+    }
+    
+    func testCalculatePlus_WhenUserTapMultiplyButton_ThenExpressionIsCorrect(){
+        calculationTest.addNewNumber(2)
+        calculationTest.mulitiplyAction()
+        calculationTest.addNewNumber(2)
+        calculationTest.total = 4
+        XCTAssertEqual(calculationTest.total, 4)
+    }
+    
+    func testCalculatePlus_WhenUserTapDividButton_ThenExpressionIsCorrect(){
+        calculationTest.addNewNumber(4)
+        calculationTest.dividAction()
+        calculationTest.addNewNumber(2)
+        calculationTest.total = 2
+        XCTAssertEqual(calculationTest.total, 2)
+    }
+    
+    func testCalculate_WhenUserTapEqualButton_ThenExpressionIsCorrect(){
+        calculationTest.addNewNumber(1)
+        calculationTest.plusAction()
+        calculationTest.addNewNumber(1)
+        calculationTest.equalAction()
+        calculationTest.total = 2
+        XCTAssertEqual(calculationTest.total, 2)
     }
     
 }

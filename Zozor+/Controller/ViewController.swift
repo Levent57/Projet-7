@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    let calculation = Calculation()
+    private let calculation = Calculation()
 
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
@@ -35,45 +35,27 @@ class ViewController: UIViewController {
     @IBAction func tappedNumberButton(_ sender: UIButton) {
         for (i, numberButton) in numberButtons.enumerated() {
             if sender == numberButton {
-                calculation.addNewNumber(i)
+                calculation.addNewNumber((i))
             }
         }
     }
-
-    @IBAction func plus() {
-        if calculation.canAddOperator {
-        	calculation.operators.append("+")
-        	calculation.stringNumbers.append("")
-            calculation.updateDisplay()
-        }
-    }
-
-    @IBAction func minus() {
-        if calculation.canAddOperator {
-            calculation.operators.append("-")
-            calculation.stringNumbers.append("")
-            calculation.updateDisplay()
-        }
-    }
     
-    @IBAction func divid() {
-        if calculation.canAddOperator {
-            calculation.operators.append("/")
-            calculation.stringNumbers.append("")
-            calculation.updateDisplay()
-        }
-    }
-    
-    @IBAction func multiply() {
-        if calculation.canAddOperator {
-            calculation.operators.append("x")
-            calculation.stringNumbers.append("")
-            calculation.updateDisplay()
-        }
-    }
 
-    @IBAction func equal() {
-        calculation.calculateTotal()
+    @IBAction func operatorButtonTapped(_ sender: UIButton) {
+        switch sender.title(for: .normal) {
+        case "+":
+            calculation.plusAction()
+        case "-":
+            calculation.minusAction()
+        case "/":
+            calculation.dividAction()
+        case "x":
+            calculation.mulitiplyAction()
+        case "=":
+            calculation.equalAction()
+        default:
+            break
+        }
     }
 
     @objc func displayNewCalculation() {

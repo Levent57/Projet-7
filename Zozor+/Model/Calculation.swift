@@ -13,7 +13,7 @@ class Calculation {
     var text = ""
     var stringNumbers: [String] = [String()]
     var operators: [String] = ["+"]
-    var total = 0
+    var total: Double = 0
     var isExpressionCorrect: Bool {
         if let stringNumber = stringNumbers.last {
             if stringNumber.isEmpty {
@@ -54,46 +54,21 @@ class Calculation {
 
     func updateDisplay() {
         for (i, stringNumber) in stringNumbers.enumerated() {
-            // Add operator
             if i > 0 {
                 text += operators[i]
             }
-            // Add number
             text += stringNumber
         }
         showNotification(name: .text)
     }
     
-//    func calculateTotal() {
-//        if !isExpressionCorrect {
-//            return
-//        }
-//        for (i, stringNumber) in stringNumbers.enumerated() {
-//            if let number = Int(stringNumber) {
-//                if operators[i] == "+" {
-//                    total += number
-//                } else if operators[i] == "-" {
-//                    total -= number
-//                } else if operators[i] == "x" {
-//                    total *= number
-//                } else if operators[i] == "/" && number != 0 {
-//                    total /= number
-//                } else {
-//                    showNotification(name: .dividByZero)
-//                    clear()
-//                }
-//            }
-//        }
-//        showNotification(name: .total)
-//        clear()
-//    }
     func calculateTotal() {
         if !isExpressionCorrect {
             return
         }
-        prioritizeCalculation()
+        calculationPriority()
         for (i, stringNumber) in stringNumbers.enumerated() {
-            if let number = Int(stringNumber) {
+            if let number = Double(stringNumber) {
                 if operators[i] == "+" {
                     total += number
                 } else {
@@ -104,23 +79,59 @@ class Calculation {
         showNotification(name: .total)
     }
     
-    private func prioritizeCalculation() {
-        for (index, op) in operators.enumerated().reversed() where op == "x" || op == "/" {
-            var operation: ((Int, Int) -> Int)?
+    private func calculationPriority() {
+        for (i, op) in operators.enumerated().reversed() where op == "x" || op == "/" {
+            var operation: ((Double, Double) -> Double)?
             if op == "x" {
                 operation = (*)
-            } else if op == "/" && stringNumbers[index] != "0" {
+            } else if op == "/" && stringNumbers[i] != "0" {
                 operation = (/)
             } else {
                 showNotification(name: .dividByZero)
                 clear()
             }
             guard let oper = operation else { return }
-            let total = oper(Int(stringNumbers[index-1])!, Int(stringNumbers[index])!)
-            stringNumbers[index-1] = String(total)
-            stringNumbers.remove(at: index)
-            operators.remove(at: index)
+            let total = oper(Double(stringNumbers[i-1])!, (Double(stringNumbers[i])!))
+            stringNumbers[i-1] = String(total)
+            stringNumbers.remove(at: i)
+            operators.remove(at: i)
         }
+    }
+    
+    func plusAction(){
+        if canAddOperator {
+            operators.append("+")
+            stringNumbers.append("")
+            updateDisplay()
+        }
+    }
+    
+    func minusAction(){
+        if canAddOperator {
+            operators.append("-")
+            stringNumbers.append("")
+            updateDisplay()
+        }
+    }
+    
+    func mulitiplyAction(){
+        if canAddOperator {
+            operators.append("x")
+            stringNumbers.append("")
+            updateDisplay()
+        }
+    }
+    
+    func dividAction(){
+        if canAddOperator {
+            operators.append("/")
+            stringNumbers.append("")
+            updateDisplay()
+        }
+    }
+    
+    func equalAction(){
+        calculateTotal()
     }
     
     func clear() {
