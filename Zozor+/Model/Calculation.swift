@@ -139,4 +139,5 @@ class Calculation {
         operators = ["+"]
         total = 0
     }
+    
 }
