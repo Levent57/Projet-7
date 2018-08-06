@@ -13,7 +13,7 @@ class Calculation {
     var text = ""
     var stringNumbers: [String] = [String()]
     var operators: [String] = ["+"]
-    var total: Double = 0
+    var total: Float = 0
     var isExpressionCorrect: Bool {
         if let stringNumber = stringNumbers.last {
             if stringNumber.isEmpty {
@@ -68,7 +68,7 @@ class Calculation {
         }
         calculationPriority()
         for (i, stringNumber) in stringNumbers.enumerated() {
-            if let number = Double(stringNumber) {
+            if let number = Float(stringNumber) {
                 if operators[i] == "+" {
                     total += number
                 } else {
@@ -81,7 +81,7 @@ class Calculation {
     
     private func calculationPriority() {
         for (i, op) in operators.enumerated().reversed() where op == "x" || op == "/" {
-            var operation: ((Double, Double) -> Double)?
+            var operation: ((Float, Float) -> Float)?
             if op == "x" {
                 operation = (*)
             } else if op == "/" && stringNumbers[i] != "0" {
@@ -91,8 +91,9 @@ class Calculation {
                 clear()
             }
             guard let oper = operation else { return }
-            let total = oper(Double(stringNumbers[i-1])!, (Double(stringNumbers[i])!))
-            stringNumbers[i-1] = String(total)
+            let total = oper(Float(stringNumbers[i-1])!, (Float(stringNumbers[i])!))
+            let totalstr = String(format: "%.2f", total)
+            stringNumbers[i-1] = String(totalstr)
             stringNumbers.remove(at: i)
             operators.remove(at: i)
         }
