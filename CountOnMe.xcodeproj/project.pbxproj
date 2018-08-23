@@ -10,7 +10,6 @@
 		2B6A46C82102042700013609 /* Calculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6A46C72102042700013609 /* Calculation.swift */; };
 		2B6A46CA2102043800013609 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6A46C92102043800013609 /* UIViewController.swift */; };
 		2B6A46CC2102044100013609 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6A46CB2102044100013609 /* Notification.swift */; };
-		2B6A46CE2102044B00013609 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B6A46CD2102044B00013609 /* Default-568h@2x.png */; };
 		2BE7B411210959B300E87947 /* CountOnMeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE7B410210959B300E87947 /* CountOnMeTests.swift */; };
 		C926DADD1D7581BB00477020 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C926DADC1D7581BB00477020 /* AppDelegate.swift */; };
 		C926DADF1D7581BB00477020 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C926DADE1D7581BB00477020 /* ViewController.swift */; };
@@ -41,7 +40,6 @@
 		2B6A46C72102042700013609 /* Calculation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculation.swift; sourceTree = "<group>"; };
 		2B6A46C92102043800013609 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		2B6A46CB2102044100013609 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
-		2B6A46CD2102044B00013609 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		2BE7B40E210959B300E87947 /* CountOnMeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CountOnMeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BE7B410210959B300E87947 /* CountOnMeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountOnMeTests.swift; sourceTree = "<group>"; };
 		2BE7B412210959B300E87947 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -138,7 +136,6 @@
 		C926DAD01D7581BB00477020 = {
 			isa = PBXGroup;
 			children = (
-				2B6A46CD2102044B00013609 /* Default-568h@2x.png */,
 				C926DADB1D7581BB00477020 /* CountOnMe */,
 				C926DAFB1D7581BB00477020 /* CountOnMeUITests */,
 				2BE7B40F210959B300E87947 /* CountOnMeTests */,
@@ -294,7 +291,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C926DAE71D7581BB00477020 /* LaunchScreen.storyboard in Resources */,
-				2B6A46CE2102044B00013609 /* Default-568h@2x.png in Resources */,
 				C926DAE41D7581BB00477020 /* Assets.xcassets in Resources */,
 				C926DAE21D7581BB00477020 /* Main.storyboard in Resources */,
 			);

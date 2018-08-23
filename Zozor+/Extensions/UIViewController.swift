@@ -10,6 +10,7 @@ import UIKit
 
 extension UIViewController {
     
+    //parameter message: String the message you wan to display
     func showErrorPopup(title: String, message: String){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)

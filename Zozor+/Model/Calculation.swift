@@ -13,8 +13,8 @@ class Calculation {
     var text = ""
     var stringNumbers: [String] = [String()]
     var operators: [String] = ["+"]
-    var total: Float = 0
-    var isExpressionCorrect: Bool {
+    var total: Float = 0 //for décimal numbers
+    var isExpressionCorrect: Bool { //check if there is empty or have only one member in number stack.
         if let stringNumber = stringNumbers.last {
             if stringNumber.isEmpty {
                 if stringNumbers.count == 1 {
@@ -28,6 +28,7 @@ class Calculation {
         return true
     }
     
+    //that check if there is one number in number stack, if yes you can add operator
     var canAddOperator: Bool {
         if let stringNumber = stringNumbers.last {
             if stringNumber.isEmpty {
@@ -38,11 +39,13 @@ class Calculation {
         return true
     }
     
+    //allows communication with the viewController
     func showNotification(name: Notification.Name) {
         let notification = Notification(name: name)
         NotificationCenter.default.post(notification)
     }
     
+    //add new number, tapped by the user
     func addNewNumber(_ newNumber: Int) {
         if let stringNumber = stringNumbers.last {
             var stringNumberMutable = stringNumber
@@ -52,6 +55,7 @@ class Calculation {
         updateDisplay()
     }
 
+    //Interactively update text to display keystrokes and results
     func updateDisplay() {
         for (i, stringNumber) in stringNumbers.enumerated() {
             if i > 0 {
@@ -62,6 +66,7 @@ class Calculation {
         showNotification(name: .text)
     }
     
+    //Perform the operation between the 2 numbers
     func calculateTotal() {
         if !isExpressionCorrect {
             return
@@ -79,6 +84,7 @@ class Calculation {
         showNotification(name: .total)
     }
     
+    //manage calculation priorities and displaying the result
     private func calculationPriority() {
         for (i, op) in operators.enumerated().reversed() where op == "x" || op == "/" {
             var operation: ((Float, Float) -> Float)?
@@ -91,7 +97,9 @@ class Calculation {
                 clear()
             }
             guard let oper = operation else { return }
-            let total = oper(Float(stringNumbers[i-1])!, (Float(stringNumbers[i])!))
+            guard let firstNumber = Float(stringNumbers[i-1]) else { return }
+            guard let secondNumber = Float(stringNumbers[i]) else { return }
+            let total = oper(firstNumber, secondNumber)
             let totalstr = String(format: "%.2f", total)
             stringNumbers[i-1] = String(totalstr)
             stringNumbers.remove(at: i)
@@ -135,6 +143,7 @@ class Calculation {
         calculateTotal()
     }
     
+    //clear
     func clear() {
         stringNumbers = [String()]
         operators = ["+"]
