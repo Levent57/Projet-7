@@ -86,24 +86,33 @@ class Calculation {
     
     //manage calculation priorities and displaying the result
     private func calculationPriority() {
-        for (i, op) in operators.enumerated().reversed() where op == "x" || op == "/" {
-            var operation: ((Float, Float) -> Float)?
-            if op == "x" {
-                operation = (*)
-            } else if op == "/" && stringNumbers[i] != "0" {
-                operation = (/)
-            } else {
-                showNotification(name: .dividByZero)
-                clear()
+        let priorityOperators = ["x", "/"]
+        var result : Float = 0
+        var i = 0
+        while i < stringNumbers.count - 1 {
+            if var firstNumber = Float(stringNumbers[i]){
+                while priorityOperators.contains(operators[i + 1]){
+                    if let secondNumber = Float(stringNumbers[i + 1]){
+                        if operators[i + 1] == "x"{
+                            result = firstNumber * secondNumber
+                        } else if operators[i + 1] == "/" && secondNumber != 0{
+                            result = firstNumber / secondNumber
+                        } else {
+                            showNotification(name: .dividByZero)
+                            clear()
+                            return
+                        }
+                        stringNumbers[i] = String(format: "%.2f", result)
+                        firstNumber = result
+                        stringNumbers.remove(at: i + 1)
+                        operators.remove(at: i + 1)
+                        if i == stringNumbers.count - 1{
+                            return
+                        }
+                    }
+                }
+                i += 1
             }
-            guard let oper = operation else { return }
-            guard let firstNumber = Float(stringNumbers[i-1]) else { return }
-            guard let secondNumber = Float(stringNumbers[i]) else { return }
-            let total = oper(firstNumber, secondNumber)
-            let totalstr = String(format: "%.2f", total)
-            stringNumbers[i-1] = String(totalstr)
-            stringNumbers.remove(at: i)
-            operators.remove(at: i)
         }
     }
     

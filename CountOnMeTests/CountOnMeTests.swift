@@ -149,4 +149,16 @@ class CountOnMeTests: XCTestCase {
         XCTAssertEqual(calculationTest.total, 2)
     }
     
+    
+    func calculationwithpriority(){
+        calculationTest.stringNumbers = ["2", "5", "4", "2", "2"]
+        calculationTest.operators = ["+", "+", "-", "x", "/"]
+        calculationTest.total = 3.0
+        calculationTest.clear()
+        XCTAssertEqual(calculationTest.stringNumbers.count, 1)
+        XCTAssertEqual(calculationTest.operators.count, 1)
+        XCTAssertEqual(calculationTest.stringNumbers.last, "")
+        XCTAssertEqual(calculationTest.operators.last, "+")
+        XCTAssertEqual(calculationTest.total, 0)
+    }
 }
